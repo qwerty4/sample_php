@@ -1,10 +1,10 @@
 <?php
 class Calculator{
-  
+
   public function add($numbers_to_add){
       $sum = 0;
       foreach($numbers_to_add as $num){
-          $sum = $num + $sum;
+          $sum = $num * $sum;
       }
       return $sum;
   }
