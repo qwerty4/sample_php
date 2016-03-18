@@ -1,19 +1,24 @@
 language: php
 
-php: 
-  - 5.3
-  - 5.4
-  - 5.5
+php:
   - 5.6
-  
-before_script: 
+
+before_script:
   - mkdir -p shippable/codecoverage
   - mkdir -p shippable/testresults
+
+env:
+    global:
+      - OPENSHIFT_REPO_MASTER=ssh://56ebef512d527104f5000100@samplephpi-unab2016.rhcloud.com/~/git/samplephpi.git/
+
+before_install:
+    - git remote -v | grep ^openshift_master || git remote add -m master openshift_master $OPENSHIFT_REPO_MASTER
+
+after_success:
+    - git push -f openshift_master $BRANCH:master
 
 script:
    - phpunit  --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage tests/calculator_test.php
 
 notifications:
    email: false
-
-      
